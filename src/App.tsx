@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { observer } from 'mobx-react-lite'
+import styled from 'styled-components'
+import TodoElement from './components/Task/Task'
+import TaskInput from './components/TaskInput/TaskInput'
+import { todoList } from './store/MstStrore'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const AppWrapper = styled.div`
+  width: 500px;
+  margin: auto;
+  margin-top: 50px;
+  color: #737775;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 15px #0000001a;
+  color: #FFFFFF;
+`
+const Header = styled.header`
+  background: #04395e;  
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+  
+`
+
+const App = () => {
+    const { activeTodos, filteredTodos } = todoList
+
+    return (
+        <AppWrapper>
+            <Header>
+                <h1>
+                    Active task: {activeTodos}
+                </h1>
+            </Header>
+            {filteredTodos.map(todo => (
+                <TodoElement key={todo.id} todo={todo} />
+            ))}
+            <TaskInput />
+        </AppWrapper>
+    )
 }
 
-export default App;
+export default observer(App)
